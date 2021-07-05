@@ -4,8 +4,10 @@ const { response } = require('express');
 const express = require('express');
 const server = express();
 require('dotenv').config();
+const weather = require('./assests/weather.json');
 const cors = require('cors');
-const weather = require('./assests/weather.json')
+server.use(cors());
+
 
 //PORT
 const PORT = process.env.PORT;
@@ -49,7 +51,6 @@ server.get('*', (request, response) => {
     response.status(404).send('Not Found')
 })
 
-server.use(cors());
 
 server.listen(PORT, () => {
     console.log(`Listenng on Port : ${PORT}`);
