@@ -22,20 +22,25 @@ server.get('/test', (request, response) => {
 
 
 // localhost:3001/weatherinfo?cityName=Seattle
-server.get('/weatherinfo', (request, response) => {
-    let selectedCity = weather.find(city => {
-        if (request.query.cityName === city.city_name) { return city }
+try{
+    server.get('/weatherinfo', (request, response) => {
+        let selectedCity = weather.find(city => {
+            if (request.query.cityName === city.city_name) { return city }
+        })
+    
+        // response.status(200).send(selectedCity.data);
+    
+        const cityObj = selectedCity.data.map(day => { 
+            return  new City(day.valid_date, day.weather.description)
+        } )
+        response.status(200).send(cityObj)
+    
+    
     })
+} catch {
+    response.status(404).send('Error 404 : You send a wrong request')
+}
 
-    // response.status(200).send(selectedCity.data);
-
-    const cityObj = selectedCity.data.map(day => {
-        response.status(200).send(new City(day.valid_date, day.weather.description))
-    })
-  
-    // console.log(cityObj);
-
-})
 
 
 // Error
