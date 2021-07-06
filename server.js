@@ -67,7 +67,7 @@ server.get('/moviesinfo',  (request, response) => {
 
     axios.get(moviesUrl).then(moviesResponse => {
         let moviesObj = moviesResponse.data.results.map(movie => {
-            return (new Movie(movie.title , movie.poster_path , movie.original_language , movie.vote_average))
+            return (new Movie(movie.title , movie.poster_path , movie.original_language , movie.vote_average , movie.overview, movie.vote_count,movie.popularity,movie.release_date))
         })
         response.status(200).send(moviesObj)
     }).catch(error => {
@@ -120,11 +120,15 @@ class City {
 }
 
 class Movie {
-    constructor(title, poster_path, original_language, vote_average) {
+    constructor(title, poster_path, original_language, vote_average ,overview, vote_count,popularity,release_date ) {
         this.title = title;
         this.poster_path = poster_path;
         this.original_language = original_language;
         this.vote_average = vote_average;
+        this.overview = overview;
+        this.vote_count = vote_count;
+         this.popularity = popularity;
+         this.release_date = release_date;
     }
 }
 
