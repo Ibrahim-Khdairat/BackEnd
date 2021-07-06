@@ -34,26 +34,8 @@ server.get('/test', (request, response) => {
 server.get('/weatherinfo',  (request, response) => {
     let weatherBitUrl = `https://api.weatherbit.io/v2.0/forecast/daily?city=${request.query.cityName}&key=${process.env.WeatherBit_Key}`;
 
-    let moviesUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_Key}&query=${request.query.cityName}`;
-    
 
 
-    // axios.get(weatherBitUrl , moviesUrl).then((weatherResponse , moviesResponse) => {
-    //     let moviesObj = moviesResponse.data.results.map(movie => {
-    //         return (new Movie(movie.title , movie.poster_path , movie.original_language , movie.vote_average))
-    //     })
-      
-    //     let cityObj = weatherResponse.data.data.map(day => {
-    //                 return (new City(day.valid_date, day.weather.description))
-    //             })
-
-    //     response.status(200).send({movie : moviesObj , weather : cityObj})
-    // }).catch(error => {
-    //     response.status(404).send(error)
-    // })
-
-
-    
     axios.get(weatherBitUrl).then(weatherResponse => {
         let cityObj = weatherResponse.data.data.map(day => {
             return (new City(day.valid_date, day.weather.description))
@@ -64,16 +46,6 @@ server.get('/weatherinfo',  (request, response) => {
     })
 
 
-    // axios.get(moviesUrl).then(moviesResponse => {
-    //     let moviesObj = moviesResponse.data.results.map(movie => {
-    //         return (new Movie(movie.title , movie.poster_path , movie.original_language , movie.vote_average))
-    //     })
-      
-    //     response.status(200).send(moviesObj)
-    // }).catch(error => {
-    //     response.status(404).send(error)
-    // })
-
 })
 //---------------------------------------------------------------------------------------------//
 // https://api.themoviedb.org/3/search/movie?api_key=81a2f3850f9f6ca2f9e6bb5f104c39d6&query=irbid
@@ -81,6 +53,28 @@ server.get('/weatherinfo',  (request, response) => {
 
 
 
+
+
+// localhost:3001/moviesinfo?cityName=Seattle
+
+// -------- MOVIES ---------//
+
+
+server.get('/moviesinfo',  (request, response) => {
+ 
+
+    let moviesUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_Key}&query=${request.query.cityName}`;
+
+    axios.get(moviesUrl).then(moviesResponse => {
+        let moviesObj = moviesResponse.data.results.map(movie => {
+            return (new Movie(movie.title , movie.poster_path , movie.original_language , movie.vote_average))
+        })
+        response.status(200).send(moviesObj)
+    }).catch(error => {
+        response.status(404).send(error)
+    })
+
+})
 
 
 
