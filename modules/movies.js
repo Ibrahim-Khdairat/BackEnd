@@ -26,7 +26,7 @@ const moviesHandler = (request, response) => {
 class Movie {
     constructor(title, poster_path, original_language, vote_average, overview, vote_count, popularity, release_date) {
         this.title = title;
-        this.poster_path = poster_path;
+        this.poster_path = `https://image.tmdb.org/t/p/w500/${poster_path}`;
         this.original_language = original_language;
         this.vote_average = vote_average;
         this.overview = overview;
