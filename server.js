@@ -9,6 +9,7 @@ const cors = require('cors');
 const { default: axios } = require('axios');
 const weatherHandler = require('./modules/weather');
 const moviesHandler = require('./modules/movies');
+const yeldHandler = require('./modules/yeld')
 
 server.use(cors());
 
@@ -39,6 +40,9 @@ server.get('/weatherinfo', weatherHandler);
 // localhost:3001/moviesinfo?cityName=Seattle
 server.get('/moviesinfo', moviesHandler);
 
+
+//--------- Yeld -----------//
+server.get('/yeld', yeldHandler);
 
 // Error
 server.get('*', (request, response) => {

@@ -1,6 +1,7 @@
 'use strict'
 const { default: axios } = require('axios');
 
+let inMemoryResponse = {};
 
 //---------------------------------------------------------------------------------------------//
 // https://api.themoviedb.org/3/search/movie?api_key=81a2f3850f9f6ca2f9e6bb5f104c39d6&query=irbid
@@ -8,20 +9,27 @@ const { default: axios } = require('axios');
 
 const moviesHandler = (request, response) => {
 
+    let sQuery = request.query.cityName;
 
-    let moviesUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_Key}&query=${request.query.cityName}`;
+    let moviesUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_Key}&query=${sQuery}`;
 
-    axios.get(moviesUrl).then(moviesResponse => {
-        let moviesObj = moviesResponse.data.results.map(movie => {
-            return (new Movie(movie.title, movie.poster_path, movie.original_language, movie.vote_average, movie.overview, movie.vote_count, movie.popularity, movie.release_date))
+
+    if (inMemoryResponse[sQuery] !== undefined) {
+        console.log('We already have the data');
+        response.status(200).send(inMemoryResponse[sQuery]);
+    } else {
+        axios.get(moviesUrl).then(moviesResponse => {
+            let moviesObj = moviesResponse.data.results.map(movie => {
+                return (new Movie(movie.title, movie.poster_path, movie.original_language, movie.vote_average, movie.overview, movie.vote_count, movie.popularity, movie.release_date))
+            })
+            inMemoryResponse[sQuery] = moviesObj;
+            response.status(200).send(moviesObj)
+        }).catch(error => {
+            response.status(404).send(error)
         })
-        response.status(200).send(moviesObj)
-    }).catch(error => {
-        response.status(404).send(error)
-    })
 
+    }
 }
-
 
 class Movie {
     constructor(title, poster_path, original_language, vote_average, overview, vote_count, popularity, release_date) {
