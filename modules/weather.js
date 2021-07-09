@@ -20,7 +20,7 @@ const weatherHandler = (request, response) => {
             .then(weatherResponse => {
                 
                 let cityObj = weatherResponse.data.data.map(day => {
-                    return (new a( day.valid_date , day.weather.description ))
+                    return (new City( day.valid_date , day.weather.description ))
                 })
                 inMemoryRes[sQuery] = cityObj;
                 console.log('send request again');
