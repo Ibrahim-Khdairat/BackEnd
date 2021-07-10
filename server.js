@@ -9,7 +9,7 @@ const cors = require('cors');
 const { default: axios } = require('axios');
 const weatherHandler = require('./modules/weather');
 const moviesHandler = require('./modules/movies');
-const yeldHandler = require('./modules/yeld')
+const yelpHandler = require('./modules/yelp')
 
 server.use(cors());
 
@@ -41,8 +41,8 @@ server.get('/weatherinfo', weatherHandler);
 server.get('/moviesinfo', moviesHandler);
 
 
-//--------- Yeld -----------//
-server.get('/yeld', yeldHandler);
+//--------- Yelp -----------//
+server.get('/yelp', yelpHandler);
 
 // Error
 server.get('*', (request, response) => {

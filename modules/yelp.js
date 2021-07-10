@@ -4,14 +4,14 @@ const { default: axios } = require('axios');
 let inMemory = {};
 // https://api.yelp.com/v3/businesses/search?location=amman&term=food
 
-//http://localhost:3001/yeld?cityName=Seattle&term=food
+//http://localhost:3001/yelp?cityName=Seattle&term=food
 
-const yeldHandler = (request, response) => {
+const yelpHandler = (request, response) => {
 
     let sQuery_1 = request.query.cityName;
     let sQuery_2 = request.query.term;
     const ENDPOINT = '/businesses/search'
-    let yeldUrl = `https://api.yelp.com/v3/businesses/search?location=${sQuery_1}&term=${sQuery_2}`;
+    let yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${sQuery_1}&term=${sQuery_2}`;
     let headers = { 'Authorization': `Bearer ${process.env.Yelp_API_Key}` }
 
     let yelpREST = axios.create({
@@ -24,11 +24,11 @@ const yeldHandler = (request, response) => {
 
     yelpREST(ENDPOINT, { params: { key: ENDPOINT } }).then(({ data }) => {
 
-        let yeldObj = data.businesses.map(service => {
-            return (new Yeld(service))
+        let yelpObj = data.businesses.map(service => {
+            return (new Yelp(service))
         })
 
-        response.status(200).send(yeldObj)
+        response.status(200).send(yelpObj)
     }).catch(error =>{
         response.send(error)
     })
@@ -62,7 +62,7 @@ const yeldHandler = (request, response) => {
 
 }
 
-class Yeld {
+class yelp {
     constructor(service) {
         this.name = service.name;
         this.image_url = service.image_url;
@@ -72,7 +72,7 @@ class Yeld {
     }
 }
 
-module.exports = yeldHandler;
+module.exports = yelpHandler;
 
 
 
