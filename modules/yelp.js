@@ -11,8 +11,7 @@ const yelpHandler = (request, response) => {
     let sQuery_1 = request.query.cityName;
     let sQuery_2 = request.query.term;
     const ENDPOINT = '/businesses/search'
-    let yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${sQuery_1}&term=${sQuery_2}`;
-    let headers = { 'Authorization': `Bearer ${process.env.Yelp_API_Key}` }
+  
 
     let yelpREST = axios.create({
         baseURL: `https://api.yelp.com/v3/businesses/search?location=${sQuery_1}&term=${sQuery_2}`,
@@ -62,7 +61,7 @@ const yelpHandler = (request, response) => {
 
 }
 
-class yelp {
+class Yelp {
     constructor(service) {
         this.name = service.name;
         this.image_url = service.image_url;
